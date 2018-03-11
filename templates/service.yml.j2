@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ kubernetes_jackett_service }}
+  namespace: {{ kubernetes_jackett_namespace }}
+spec:
+  selector:
+    app: {{ kubernetes_jackett_app }}
+  ports:
+    - port: 80
+      targetPort: jackett

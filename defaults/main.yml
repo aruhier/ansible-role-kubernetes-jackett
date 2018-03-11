@@ -1,0 +1,35 @@
+---
+
+kubernetes_jackett_image: "linuxserver/jackett:latest"
+
+kubernetes_jackett_namespace: "default"
+kubernetes_jackett_deployment: "jackett-deployment"
+kubernetes_jackett_app: "jackett"
+kubernetes_jackett_service: "jackett"
+
+kubernetes_jackett_node_selector: {}
+kubernetes_jackett_replicas: 1
+kubernetes_jackett_revision_history: 1
+
+kubernetes_jackett_deployment_labels: {}
+kubernetes_jackett_deployment_annotations: {}
+
+kubernetes_jackett_resources:
+  limits:
+    memory: "756Mi"
+  requests:
+    memory: "256Mi"
+
+kubernetes_jackett_blackhole_volume: {}
+
+kubernetes_jackett_config_volume:
+  definition:
+
+kubernetes_jackett_setup_ingress: false
+kubernetes_jackett_ingress:
+  name: "jackett-ingress"
+  host: "jackett.example.com"
+  annotations:
+  tls:
+
+# vim: set ts=2 sw=2:

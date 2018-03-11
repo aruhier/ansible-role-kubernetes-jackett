@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ kubernetes_jackett_ingress.name }}
+  namespace: {{ kubernetes_jackett_namespace }}
+{% if kubernetes_jackett_ingress.annotations %}
+  annotations:
+    {{ kubernetes_jackett_ingress.annotations | to_nice_yaml | indent }}
+{% endif %}
+spec:
+{% if kubernetes_jackett_ingress.tls %}
+  tls:
+    {{ kubernetes_jackett_ingress.tls | to_nice_yaml | indent }}
+{% endif %}
+  rules:
+  - host: {{ kubernetes_jackett_ingress.host }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ kubernetes_jackett_service }}
+          servicePort: 80

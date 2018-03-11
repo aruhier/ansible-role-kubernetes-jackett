@@ -1,0 +1,57 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ kubernetes_jackett_deployment }}
+  namespace: {{ kubernetes_jackett_namespace }}
+  labels:
+    app: {{ kubernetes_jackett_app }}
+{% if kubernetes_jackett_deployment_labels %}
+    {{ kubernetes_jackett_deployment_labels | to_nice_yaml | indent(4) }}
+{% endif %}
+{% if kubernetes_jackett_deployment_annotations %}
+  annotations:
+    {{ kubernetes_jackett_deployment_annotations | to_nice_yaml | indent(4) }}
+{% endif %}
+spec:
+  replicas: {{ kubernetes_jackett_replicas }}
+  revisionHistoryLimit: {{ kubernetes_jackett_revision_history }}
+  selector:
+    matchLabels:
+      app: {{ kubernetes_jackett_app }}
+  template:
+    metadata:
+      labels:
+        app: {{ kubernetes_jackett_app }}
+    spec:
+      containers:
+      - image: {{ kubernetes_jackett_image }}
+        imagePullPolicy: Always
+        name: jackett
+        resources:
+          {{ kubernetes_jackett_resources | to_yaml | indent(10) }}
+        ports:
+        - name: jackett
+          containerPort: 9117
+        livenessProbe:
+          tcpSocket:
+            port: jackett
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        volumeMounts:
+        - mountPath: /config
+          name: jackett-config
+          {% if kubernetes_jackett_config_volume.subPath is defined %}subPath: {{ kubernetes_jackett_config_volume.subPath }}{% endif %}
+
+        - mountPath: /downloads
+          name: jackett-blackhole
+          {% if kubernetes_jackett_blackhole_volume.subPath is defined %}subPath: {{ kubernetes_jackett_blackhole_volume.subPath }}{% endif %}
+
+{% if kubernetes_jackett_node_selector|default({}) %}
+      nodeSelector:
+        {{ kubernetes_jackett_node_selector | to_yaml | indent(8) }}
+{% endif %}
+      volumes:
+      - {name: jackett-config, {{ kubernetes_jackett_config_volume.definition | to_yaml }}}
+      - {name: jackett-blackhole, {{ kubernetes_jackett_blackhole_volume.definition | to_yaml }}}
+      restartPolicy: Always
+status: {}
