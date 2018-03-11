@@ -52,6 +52,7 @@ spec:
 {% endif %}
       volumes:
       - {name: jackett-config, {{ kubernetes_jackett_config_volume.definition | to_yaml }}}
+
       - {name: jackett-blackhole, {{ kubernetes_jackett_blackhole_volume.definition | to_yaml }}}
       restartPolicy: Always
 status: {}

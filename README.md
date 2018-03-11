@@ -53,7 +53,9 @@ kubernetes_jackett_ingress:
 
 # Useful when blackhole is used. Mounted in /downlaods/ (see # examples for
 more details)
-kubernetes_jackett_blackhole_volume: {}
+kubernetes_jackett_blackhole_volume:
+  definition:
+    emptyDir: {}
 
 # jackett config volume. Contains the database, arts cache and config.
 kubernetes_jackett_config_volume:

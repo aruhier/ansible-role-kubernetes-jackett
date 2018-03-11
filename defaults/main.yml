@@ -20,7 +20,9 @@ kubernetes_jackett_resources:
   requests:
     memory: "256Mi"
 
-kubernetes_jackett_blackhole_volume: {}
+kubernetes_jackett_blackhole_volume:
+  definition:
+    emptyDir: {}
 
 kubernetes_jackett_config_volume:
   definition:
