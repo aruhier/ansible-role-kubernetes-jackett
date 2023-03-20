@@ -1,6 +1,6 @@
 ---
 
-kubernetes_jackett_image: "linuxserver/jackett:latest"
+kubernetes_jackett_image: "lscr.io/linuxserver/jackett:latest"
 
 kubernetes_jackett_namespace: "default"
 kubernetes_jackett_deployment: "jackett-deployment"
